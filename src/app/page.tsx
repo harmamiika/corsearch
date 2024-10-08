@@ -1,10 +1,6 @@
 import { UserList } from './user-list';
 import styles from './page.module.scss';
-
-const getUsers = async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/users');
-  return response.json();
-};
+import { getUsers } from './services/get-users';
 
 export default async function Home() {
   const users = await getUsers();

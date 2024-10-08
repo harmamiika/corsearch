@@ -8,6 +8,7 @@ export function UserList({ users }: { users: User[] }) {
   const [search, setSearch] = useState<string>('');
   const [sort, setSort] = useState<'alphabetical' | 'reversed-alphabetical'>('alphabetical');
   const filteredUsers = !!search.length ? users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase())) : users;
+
   const userData = filteredUsers.sort((a, b) => {
     if (sort === 'alphabetical') {
       return a.name.localeCompare(b.name);
