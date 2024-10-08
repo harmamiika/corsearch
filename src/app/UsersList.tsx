@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 interface User {
   id: number;
   name: string;
@@ -25,19 +27,38 @@ interface User {
 }
 
 export function UsersList({ users }: { users: User[] }) {
-  console.log(users, 'users');
+  const [search, setSearch] = useState<string>('');
+  const [sort, setSort] = useState<'alphabetical' | 'reversed-alphabetical'>('alphabetical');
+  const filteredUsers = !!search.length ? users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase())) : users;
+  const userData = filteredUsers.sort((a, b) => {
+    if (sort === 'alphabetical') {
+      return a.name.localeCompare(b.name);
+    } else {
+      return b.name.localeCompare(a.name);
+    }
+  });
+
+  const onToggleSortClick = () => {
+    setSort(sort === 'alphabetical' ? 'reversed-alphabetical' : 'alphabetical');
+  };
+
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
   return (
     <div>
       <div className="list-controls">
-        <input type="text" placeholder="Search users" className="search-input" />
-        <button className="sort-button">Toggle sorting</button>
+        <input type="text" placeholder="Search users" className="search-input" onChange={onSearchChange} />
+        <button className="sort-button" onClick={onToggleSortClick}>
+          Toggle sorting
+        </button>
       </div>
       <ul className="user-list">
-        {users.map((user) => (
+        {userData.map((user) => (
           <li className="user-list-item">{user.name}</li>
         ))}
       </ul>
-      users list
     </div>
   );
 }
