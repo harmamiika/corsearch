@@ -1,5 +1,6 @@
 'use client';
 
+import styles from './user-list.module.scss';
 import { useState } from 'react';
 
 interface User {
@@ -26,10 +27,11 @@ interface User {
   };
 }
 
-export function UsersList({ users }: { users: User[] }) {
+export function UserList({ users }: { users: User[] }) {
   const [search, setSearch] = useState<string>('');
   const [sort, setSort] = useState<'alphabetical' | 'reversed-alphabetical'>('alphabetical');
   const filteredUsers = !!search.length ? users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase())) : users;
+
   const userData = filteredUsers.sort((a, b) => {
     if (sort === 'alphabetical') {
       return a.name.localeCompare(b.name);
@@ -48,17 +50,27 @@ export function UsersList({ users }: { users: User[] }) {
 
   return (
     <div>
-      <div className="list-controls">
-        <input type="text" placeholder="Search users" className="search-input" onChange={onSearchChange} />
-        <button className="sort-button" onClick={onToggleSortClick}>
+      <div className={styles.listControls}>
+        <input type="text" placeholder="Search users" className={styles.searchInput} onChange={onSearchChange} />
+        <button className={styles.sortButton} onClick={onToggleSortClick}>
           Toggle sorting
         </button>
       </div>
-      <ul className="user-list">
+      <div className={styles.userList}>
         {userData.map((user) => (
-          <li className="user-list-item">{user.name}</li>
+          <div key={user.id} className={styles.userCard}>
+            <div className={styles.userCardContent}>
+              <h3>{user.name}</h3>
+              <p>{user.email}</p>
+              <p>{user.phone}</p>
+              <p>{user.website}</p>
+              <p>
+                {user.address.street}, {user.address.suite}, {user.address.city}, {user.address.zipcode}
+              </p>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
