@@ -1,8 +1,11 @@
-<h1>USER LIST APP</h1>
+# USER LIST APP
 
-<h2>How to run:</h2>
-- Pull the repository
-- npm i 
-- npm run dev
+## How to run:
 
-Time spent: 45min
+1. Pull the repository
+2. `npm i`
+3. `npm run dev`
+
+---
+
+**Time spent:** 50min
