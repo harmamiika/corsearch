@@ -1,37 +1,13 @@
 'use client';
 
+import { User } from './interfaces/User';
 import styles from './user-list.module.scss';
 import { useState } from 'react';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-    geo: {
-      lat: string;
-      lng: string;
-    };
-  };
-  phone: string;
-  website: string;
-  company: {
-    name: string;
-    catchPhrase: string;
-    bs: string;
-  };
-}
 
 export function UserList({ users }: { users: User[] }) {
   const [search, setSearch] = useState<string>('');
   const [sort, setSort] = useState<'alphabetical' | 'reversed-alphabetical'>('alphabetical');
   const filteredUsers = !!search.length ? users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase())) : users;
-
   const userData = filteredUsers.sort((a, b) => {
     if (sort === 'alphabetical') {
       return a.name.localeCompare(b.name);
@@ -40,19 +16,19 @@ export function UserList({ users }: { users: User[] }) {
     }
   });
 
-  const onToggleSortClick = () => {
+  const handeToggleSortClick = () => {
     setSort(sort === 'alphabetical' ? 'reversed-alphabetical' : 'alphabetical');
   };
 
-  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
 
   return (
     <div>
       <div className={styles.listControls}>
-        <input type="text" placeholder="Search users" className={styles.searchInput} onChange={onSearchChange} />
-        <button className={styles.sortButton} onClick={onToggleSortClick}>
+        <input type="text" placeholder="Search users" className={styles.searchInput} onChange={handleSearchChange} />
+        <button className={styles.sortButton} onClick={handeToggleSortClick}>
           Toggle sorting
         </button>
       </div>
